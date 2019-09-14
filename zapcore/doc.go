@@ -21,4 +21,6 @@
 // Package zapcore defines and implements the low-level interfaces upon which
 // zap is built. By providing alternate implementations of these interfaces,
 // external packages can extend zap's capabilities.
+//文档
 package zapcore // import "go.uber.org/zap/zapcore"
+

@@ -74,6 +74,7 @@ func ErrorOutput(w zapcore.WriteSyncer) Option {
 	})
 }
 
+//开发模式
 // Development puts the logger in development mode, which makes DPanic-level
 // logs panic instead of simply logging an error.
 func Development() Option {
@@ -82,6 +83,7 @@ func Development() Option {
 	})
 }
 
+//开发模式
 // AddCaller configures the Logger to annotate each message with the filename
 // and line number of zap's caller.
 func AddCaller() Option {

@@ -70,6 +70,7 @@ type AtomicLevel struct {
 	l *atomic.Int32
 }
 
+//设置日志级别
 // NewAtomicLevel creates an AtomicLevel with InfoLevel and above logging
 // enabled.
 func NewAtomicLevel() AtomicLevel {

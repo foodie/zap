@@ -27,6 +27,7 @@ import (
 	"go.uber.org/multierr"
 )
 
+//异步写的接口
 // A WriteSyncer is an io.Writer that can also flush any buffered data. Note
 // that *os.File (and thus, os.Stderr and os.Stdout) implement WriteSyncer.
 type WriteSyncer interface {
@@ -34,6 +35,7 @@ type WriteSyncer interface {
 	Sync() error
 }
 
+//通过AddSync返回一个 WriteSyncer
 // AddSync converts an io.Writer to a WriteSyncer. It attempts to be
 // intelligent: if the concrete type of the io.Writer implements WriteSyncer,
 // we'll use the existing Sync method. If it doesn't, we'll add a no-op Sync.
@@ -46,6 +48,7 @@ func AddSync(w io.Writer) WriteSyncer {
 	}
 }
 
+//加锁的WriteSyncer
 type lockedWriteSyncer struct {
 	sync.Mutex
 	ws WriteSyncer
@@ -75,6 +78,7 @@ func (s *lockedWriteSyncer) Sync() error {
 	return err
 }
 
+//对异步写的封装
 type writerWrapper struct {
 	io.Writer
 }
@@ -83,6 +87,7 @@ func (w writerWrapper) Sync() error {
 	return nil
 }
 
+//多个异步写接口
 type multiWriteSyncer []WriteSyncer
 
 // NewMultiWriteSyncer creates a WriteSyncer that duplicates its writes
@@ -95,6 +100,7 @@ func NewMultiWriteSyncer(ws ...WriteSyncer) WriteSyncer {
 	return multiWriteSyncer(append([]WriteSyncer(nil), ws...))
 }
 
+//写入数据
 // See https://golang.org/src/io/multi.go
 // When not all underlying syncers write the same number of bytes,
 // the smallest number is returned even though Write() is called on

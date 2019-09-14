@@ -23,6 +23,7 @@ package zapcore
 import "go.uber.org/zap/internal/color"
 
 var (
+	//设置颜色编码器
 	_levelToColor = map[Level]color.Color{
 		DebugLevel:  color.Magenta,
 		InfoLevel:   color.Blue,
@@ -32,12 +33,15 @@ var (
 		PanicLevel:  color.Red,
 		FatalLevel:  color.Red,
 	}
+	//未知为红色
 	_unknownLevelColor = color.Red
 
+	//大小写字体颜色
 	_levelToLowercaseColorString = make(map[Level]string, len(_levelToColor))
 	_levelToCapitalColorString   = make(map[Level]string, len(_levelToColor))
 )
 
+//大小写字体颜色
 func init() {
 	for level, color := range _levelToColor {
 		_levelToLowercaseColorString[level] = color.Add(level.String())

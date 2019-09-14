@@ -22,11 +22,13 @@ package buffer
 
 import "sync"
 
+//对原始的pool的封装
 // A Pool is a type-safe wrapper around a sync.Pool.
 type Pool struct {
 	p *sync.Pool
 }
 
+//新建一个pool
 // NewPool constructs a new Pool.
 func NewPool() Pool {
 	return Pool{p: &sync.Pool{
@@ -36,14 +38,17 @@ func NewPool() Pool {
 	}}
 }
 
+//获取数据
 // Get retrieves a Buffer from the pool, creating one if necessary.
 func (p Pool) Get() *Buffer {
 	buf := p.p.Get().(*Buffer)
+	//重置
 	buf.Reset()
 	buf.pool = p
 	return buf
 }
 
+//放入数据
 func (p Pool) put(buf *Buffer) {
 	p.p.Put(buf)
 }

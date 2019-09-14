@@ -28,10 +28,12 @@ import (
 	"time"
 )
 
+
 // A FieldType indicates which member of the Field union struct should be used
 // and how it should be serialized.
 type FieldType uint8
 
+//定义字段的类型
 const (
 	// UnknownType is the default field type. Attempting to add it to an encoder will panic.
 	UnknownType FieldType = iota
@@ -91,17 +93,19 @@ const (
 	SkipType
 )
 
+//定义field
 // A Field is a marshaling operation used to add a key-value pair to a logger's
 // context. Most fields are lazily marshaled, so it's inexpensive to add fields
 // to disabled debug-level log statements.
 type Field struct {
 	Key       string
-	Type      FieldType
+	Type      FieldType //字段类型
 	Integer   int64
 	String    string
 	Interface interface{}
 }
 
+//添加
 // AddTo exports a field through the ObjectEncoder interface. It's primarily
 // useful to library authors, and shouldn't be necessary in most applications.
 func (f Field) AddTo(enc ObjectEncoder) {

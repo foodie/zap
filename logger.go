@@ -39,7 +39,7 @@ import (
 // safety over brevity. For most applications, the SugaredLogger strikes a
 // better balance between performance and ergonomics.
 type Logger struct {
-	core zapcore.Core
+	core zapcore.Core //核心的封装：
 
 	development bool
 	name        string
@@ -51,6 +51,7 @@ type Logger struct {
 	callerSkip int
 }
 
+//新建一个日志
 // New constructs a new Logger from the provided zapcore.Core and Options. If
 // the passed zapcore.Core is nil, it falls back to using a no-op
 // implementation.

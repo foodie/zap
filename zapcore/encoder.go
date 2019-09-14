@@ -26,23 +26,28 @@ import (
 	"go.uber.org/zap/buffer"
 )
 
+//换行
 // DefaultLineEnding defines the default line ending when writing logs.
 // Alternate line endings specified in EncoderConfig can override this
 // behavior.
 const DefaultLineEnding = "\n"
 
+//设置一个key
 // OmitKey defines the key to use when callers want to remove a key from log output.
 const OmitKey = ""
 
+//级别编码器
 // A LevelEncoder serializes a Level to a primitive type.
 type LevelEncoder func(Level, PrimitiveArrayEncoder)
 
+//小写的编码器
 // LowercaseLevelEncoder serializes a Level to a lowercase string. For example,
 // InfoLevel is serialized to "info".
 func LowercaseLevelEncoder(l Level, enc PrimitiveArrayEncoder) {
 	enc.AppendString(l.String())
 }
 
+//添加小写
 // LowercaseColorLevelEncoder serializes a Level to a lowercase string and adds coloring.
 // For example, InfoLevel is serialized to "info" and colored blue.
 func LowercaseColorLevelEncoder(l Level, enc PrimitiveArrayEncoder) {
@@ -53,12 +58,14 @@ func LowercaseColorLevelEncoder(l Level, enc PrimitiveArrayEncoder) {
 	enc.AppendString(s)
 }
 
+//大写
 // CapitalLevelEncoder serializes a Level to an all-caps string. For example,
 // InfoLevel is serialized to "INFO".
 func CapitalLevelEncoder(l Level, enc PrimitiveArrayEncoder) {
 	enc.AppendString(l.CapitalString())
 }
 
+//添加大写
 // CapitalColorLevelEncoder serializes a Level to an all-caps string and adds color.
 // For example, InfoLevel is serialized to "INFO" and colored blue.
 func CapitalColorLevelEncoder(l Level, enc PrimitiveArrayEncoder) {
@@ -69,6 +76,7 @@ func CapitalColorLevelEncoder(l Level, enc PrimitiveArrayEncoder) {
 	enc.AppendString(s)
 }
 
+//设置level显示器
 // UnmarshalText unmarshals text to a LevelEncoder. "capital" is unmarshaled to
 // CapitalLevelEncoder, "coloredCapital" is unmarshaled to CapitalColorLevelEncoder,
 // "colored" is unmarshaled to LowercaseColorLevelEncoder, and anything else
@@ -263,6 +271,7 @@ type EncoderConfig struct {
 	EncodeName NameEncoder `json:"nameEncoder" yaml:"nameEncoder"`
 }
 
+//对象编码接口
 // ObjectEncoder is a strongly-typed, encoding-agnostic interface for adding a
 // map- or struct-like object to the logging context. Like maps, ObjectEncoders
 // aren't safe for concurrent use (though typical use shouldn't require locks).
@@ -303,6 +312,7 @@ type ObjectEncoder interface {
 	OpenNamespace(key string)
 }
 
+// array编码器接口，增加了时间，对象，反射 信息
 // ArrayEncoder is a strongly-typed, encoding-agnostic interface for adding
 // array-like objects to the logging context. Of note, it supports mixed-type
 // arrays even though they aren't typical in Go. Like slices, ArrayEncoders
@@ -324,6 +334,7 @@ type ArrayEncoder interface {
 	AppendReflected(value interface{}) error
 }
 
+//私有的array编码器接口
 // PrimitiveArrayEncoder is the subset of the ArrayEncoder interface that deals
 // only in Go's built-in types. It's included only so that Duration- and
 // TimeEncoders cannot trigger infinite recursion.

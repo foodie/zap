@@ -25,8 +25,10 @@ package buffer // import "go.uber.org/zap/buffer"
 
 import "strconv"
 
+//设置buf的大小
 const _size = 1024 // by default, create 1 KiB buffers
 
+//buf对象
 // Buffer is a thin wrapper around a byte slice. It's intended to be pooled, so
 // the only way to construct one is via a Pool.
 type Buffer struct {
@@ -34,6 +36,7 @@ type Buffer struct {
 	pool Pool
 }
 
+//添加byte
 // AppendByte writes a single byte to the Buffer.
 func (b *Buffer) AppendByte(v byte) {
 	b.bs = append(b.bs, v)
@@ -86,18 +89,21 @@ func (b *Buffer) String() string {
 	return string(b.bs)
 }
 
+//置空
 // Reset resets the underlying byte slice. Subsequent writes re-use the slice's
 // backing array.
 func (b *Buffer) Reset() {
 	b.bs = b.bs[:0]
 }
 
+//添加[]byte
 // Write implements io.Writer.
 func (b *Buffer) Write(bs []byte) (int, error) {
 	b.bs = append(b.bs, bs...)
 	return len(bs), nil
 }
 
+//trim最后的\n
 // TrimNewline trims any final "\n" byte from the end of the buffer.
 func (b *Buffer) TrimNewline() {
 	if i := len(b.bs) - 1; i >= 0 {
@@ -107,6 +113,7 @@ func (b *Buffer) TrimNewline() {
 	}
 }
 
+//释放buf其实是放入pool
 // Free returns the Buffer to its Pool.
 //
 // Callers must not retain references to the Buffer after calling Free.

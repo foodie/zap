@@ -21,11 +21,11 @@
 package buffer
 
 import (
-	"bytes"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"strings"
+	"bytes"
 )
 
 func TestBufferWrites(t *testing.T) {
@@ -61,6 +61,12 @@ func TestBufferWrites(t *testing.T) {
 	}
 }
 
+/**
+1 测试常规的slice
+2 测试buf
+3 测试pool
+
+ */
 func BenchmarkBuffers(b *testing.B) {
 	// Because we use the strconv.AppendFoo functions so liberally, we can't
 	// use the standard library's bytes.Buffer anyways (without incurring a

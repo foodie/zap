@@ -23,8 +23,9 @@ package zapcore
 // Core is a minimal, fast logger interface. It's designed for library authors
 // to wrap in a more user-friendly API.
 type Core interface {
-	LevelEnabler
+	LevelEnabler //级别正确的接口
 
+	//写入字段返回core
 	// With adds structured context to the Core.
 	With([]Field) Core
 	// Check determines whether the supplied Entry should be logged (using the
@@ -54,6 +55,7 @@ func (nopCore) Check(_ Entry, ce *CheckedEntry) *CheckedEntry { return ce }
 func (nopCore) Write(Entry, []Field) error                    { return nil }
 func (nopCore) Sync() error                                   { return nil }
 
+//创建一个解析器
 // NewCore creates a Core that writes logs to a WriteSyncer.
 func NewCore(enc Encoder, ws WriteSyncer, enab LevelEnabler) Core {
 	return &ioCore{

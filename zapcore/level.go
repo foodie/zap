@@ -28,6 +28,7 @@ import (
 
 var errUnmarshalNilLevel = errors.New("can't unmarshal a nil *Level")
 
+//定义level常量
 // A Level is a logging priority. Higher levels are more important.
 type Level int8
 
@@ -55,6 +56,7 @@ const (
 	_maxLevel = FatalLevel
 )
 
+//返回level常量的名称
 // String returns a lower-case ASCII representation of the log level.
 func (l Level) String() string {
 	switch l {
@@ -77,6 +79,7 @@ func (l Level) String() string {
 	}
 }
 
+//level常量名称大写
 // CapitalString returns an all-caps ASCII representation of the log level.
 func (l Level) CapitalString() string {
 	// Printing levels in all-caps is common enough that we should export this
@@ -101,12 +104,14 @@ func (l Level) CapitalString() string {
 	}
 }
 
+//常量名称byte化
 // MarshalText marshals the Level to text. Note that the text representation
 // drops the -Level suffix (see example).
 func (l Level) MarshalText() ([]byte, error) {
 	return []byte(l.String()), nil
 }
 
+//常量名称是否合理
 // UnmarshalText unmarshals text to a level. Like MarshalText, UnmarshalText
 // expects the text representation of a Level to drop the -Level suffix (see
 // example).
@@ -123,6 +128,7 @@ func (l *Level) UnmarshalText(text []byte) error {
 	return nil
 }
 
+//通过字符串获取对应的常量名称
 func (l *Level) unmarshalText(text []byte) bool {
 	switch string(text) {
 	case "debug", "DEBUG":
@@ -145,21 +151,26 @@ func (l *Level) unmarshalText(text []byte) bool {
 	return true
 }
 
+//设置用户级别
 // Set sets the level for the flag.Value interface.
 func (l *Level) Set(s string) error {
 	return l.UnmarshalText([]byte(s))
 }
 
+//获取级别
 // Get gets the level for the flag.Getter interface.
 func (l *Level) Get() interface{} {
 	return *l
 }
 
+//是否运行大于某个级别
 // Enabled returns true if the given level is at or above this level.
 func (l Level) Enabled(lvl Level) bool {
 	return lvl >= l
 }
 
+
+//级别允许的接口
 // LevelEnabler decides whether a given logging level is enabled when logging a
 // message.
 //
